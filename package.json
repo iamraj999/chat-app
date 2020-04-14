@@ -1,0 +1,26 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamraj999/chat-app.git"
+  },
+  "author": "Raj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamraj999/chat-app/issues"
+  },
+  "homepage": "https://github.com/iamraj999/chat-app#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
