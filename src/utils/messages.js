@@ -1,4 +1,4 @@
-const generateMessage = (username, text,displayName) => {
+const generateMessage = (displayName,username, text) => {
     return {
         username: username,
         text: text,
@@ -7,7 +7,7 @@ const generateMessage = (username, text,displayName) => {
     }
 }
 
-const generateLocationMessage = (username, url, displayName) => {
+const generateLocationMessage = (displayName,username, url) => {
     return {
         username,
         url: url,

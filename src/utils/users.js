@@ -6,7 +6,7 @@ const addUser = ({
     username,
     room
 }) => {
-   const displayName = username.trim();
+    const displayName = username.trim();
     username = username.trim().toLowerCase();
     const roomDisplayName = room.trim();
     room = room.trim().toLowerCase();
