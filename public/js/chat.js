@@ -83,7 +83,6 @@ form.addEventListener('submit', (e) => {
     button.setAttribute('disabled', 'disabled')
     socket.emit('sendMessage', userMessage.value, (error) => {
         button.removeAttribute('disabled');
-        button.focus();
         if (error) {
             return console.log(error)
         }
