@@ -3,7 +3,7 @@ const socket = io();
 //Elements
 
 const form = document.querySelector('#message-form');
-const msg = document.querySelector('#usermsg');
+const userMessage = document.querySelector('#usermsg');
 const button = form.querySelector('button');
 const messages = document.querySelector('#messages');
 
@@ -22,26 +22,28 @@ const {
 socket.on('message', (message) => {
     console.log(message.text)
     const html = Mustache.render(messageTemplate, {
+        username: message.username,
         message: message.text,
         createdAt: moment(message.createdAt).format('h:mm a')
     });
-    messages.insertAdjacentHTML('beforebegin', html);
+    messages.insertAdjacentHTML('beforeend', html);
 });
 
 socket.on('locationMessage', (message) => {
     console.log(message.url)
     const html = Mustache.render(locationMessageTemplate, {
+        username: message.username,
         url: message.url,
         createdAt: moment(message.createdAt).format('h:mm a')
     });
-    messages.insertAdjacentHTML('beforebegin', html);
+    messages.insertAdjacentHTML('beforeend', html);
 })
 
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     button.setAttribute('disabled', 'disabled')
-    socket.emit('sendMessage', msg.value, (error) => {
+    socket.emit('sendMessage', userMessage.value, (error) => {
         button.removeAttribute('disabled');
         button.focus();
         if (error) {
@@ -49,7 +51,8 @@ form.addEventListener('submit', (e) => {
         }
         console.log('The msg was delivered!')
     })
-    msg.value = '';
+    userMessage.value = '';
+
 })
 
 const locationButton = document.querySelector('#send-location');
@@ -75,4 +78,9 @@ locationButton.addEventListener('click', () => {
 socket.emit('join', {
     username,
     room
+}, (error)=>{
+    if(error){
+        alert(error)
+        location.href = '/';
+    }
 });

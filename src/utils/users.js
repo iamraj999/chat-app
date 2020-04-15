@@ -15,9 +15,8 @@ const addUser = ({
     }
     //check for existing user
     const existingUser = users.find(user => {
-        return user.room === roo && user.username === username
+        return user.room === room && user.username === username
     })
-
     //validate user name
     if (existingUser) {
         return {
