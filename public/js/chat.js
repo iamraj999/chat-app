@@ -10,6 +10,7 @@ const messages = document.querySelector('#messages');
 //templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
+const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 //QS
 const {
@@ -18,6 +19,30 @@ const {
 } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
 });
+const autoScroll = () => {
+    //new message element
+    const $newMessage = messages.lastElementChild
+    // height of new message
+    const newMessageStyles = getComputedStyle($newMessage)
+    const newMessageMargin = parseInt(newMessageStyles.marginBottom)
+    const newMessageHeight = $newMessage.offsetHeight + newMessageMargin;
+
+    // visible height
+    const visibleheight = messages.offsetHeight;
+    // height of messages container
+    const containerheight = messages.scrollHeight;
+    //how far i scrolled
+    const scrollOffset = messages.scrollTop + visibleheight;
+
+    if(containerheight - newMessageHeight <= scrollOffset){
+        messages.scrollTop = messages.scrollHeight
+    }
+
+    console.log(newMessageStyles);
+
+
+}
+
 
 socket.on('message', (message) => {
     console.log(message.text)
@@ -27,6 +52,7 @@ socket.on('message', (message) => {
         createdAt: moment(message.createdAt).format('h:mm a')
     });
     messages.insertAdjacentHTML('beforeend', html);
+    autoScroll();
 });
 
 socket.on('locationMessage', (message) => {
@@ -37,6 +63,18 @@ socket.on('locationMessage', (message) => {
         createdAt: moment(message.createdAt).format('h:mm a')
     });
     messages.insertAdjacentHTML('beforeend', html);
+    autoScroll();
+})
+
+socket.on('roomData', ({
+    users,
+    room
+}) => {
+    const html = Mustache.render(sidebarTemplate, {
+        room: room,
+        users: users
+    });
+    document.querySelector('#sidebar').innerHTML = html;
 })
 
 
@@ -78,9 +116,17 @@ locationButton.addEventListener('click', () => {
 socket.emit('join', {
     username,
     room
-}, (error)=>{
-    if(error){
+}, (error) => {
+    if (error) {
         alert(error)
         location.href = '/';
     }
 });
+
+socket.on('roomData', ({
+    room,
+    users
+}) => {
+    console.log(users)
+
+})
