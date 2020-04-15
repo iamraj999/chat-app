@@ -1,5 +1,7 @@
 const socket = io();
 
+//Elements
+
 const form = document.querySelector('#message-form');
 const msg = document.querySelector('#usermsg');
 const button = form.querySelector('button');
@@ -9,6 +11,13 @@ const messages = document.querySelector('#messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 
+//QS
+const {
+    username,
+    room
+} = Qs.parse(location.search, {
+    ignoreQueryPrefix: true
+});
 
 socket.on('message', (message) => {
     console.log(message.text)
@@ -62,3 +71,8 @@ locationButton.addEventListener('click', () => {
         alert('Geolocation is not supported by your browser')
     }
 })
+
+socket.emit('join', {
+    username,
+    room
+});
