@@ -6,7 +6,9 @@ const addUser = ({
     username,
     room
 }) => {
+    displayName = username.trim();
     username = username.trim().toLowerCase();
+    roomDisplayName = room.trim();
     room = room.trim().toLowerCase();
     if (!username || !room) {
         return {
@@ -26,7 +28,9 @@ const addUser = ({
     const user = {
         id,
         username,
-        room
+        room,
+        displayName,
+        roomDisplayName
     }
     users.push(user);
     return {
