@@ -90,6 +90,7 @@ form.addEventListener('submit', (e) => {
         console.log('The msg was delivered!')
     })
     userMessage.value = '';
+    userMessage.focus();
 
 })
 
