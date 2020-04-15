@@ -6,9 +6,9 @@ const addUser = ({
     username,
     room
 }) => {
-    displayName = username.trim();
+   const displayName = username.trim();
     username = username.trim().toLowerCase();
-    roomDisplayName = room.trim();
+    const roomDisplayName = room.trim();
     room = room.trim().toLowerCase();
     if (!username || !room) {
         return {
