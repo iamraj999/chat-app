@@ -120,9 +120,12 @@ button:disabled {
     max-width: 300px;
     border: 1px solid grey;
     border-radius: 8px;
-    padding: 10px;
+    padding: 6px 10px;
     min-width: 100px;
+    position: relative;
+    box-sizing: border-box;
 }
+
 
 .message.sender {
     float: right;
@@ -130,13 +133,42 @@ button:disabled {
     text-align: left;
     background-color: cornsilk;
 }
-
+.message.sender:after{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid grey;
+    border-right: 1px solid grey;
+    border-bottom: 0px solid grey;
+    border-left: 0px solid grey;
+    bottom: 12px;
+    right: -6px;
+    margin-left: 60px;
+    content: '';
+    transform: rotate(45deg);
+    background-color: cornsilk;
+  }
 .message.receiver {
     float: left;
     clear: both;
     text-align: left;
     background-color: darkgray;
 }
+.message.receiver:after{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-top: 0px solid grey;
+    border-right: 0px solid grey;
+    border-bottom: 1px solid grey;
+    border-left: 1px solid grey;
+    bottom: 12px;
+    left: -67px;
+    margin-left: 60px;
+    content: '';
+    transform: rotate(45deg);
+    background-color: darkgray;
+  }
 
 .message.admin {
     float: none;
