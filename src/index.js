@@ -70,8 +70,8 @@ io.on('connection', (socket) => {
     })
     socket.on('sendLocation', (coords, callback) => {
         const user = getUser(socket.id)
-        socket.emit('locationMessage', generateMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, 'sender', user.color));
-        socket.broadcast.to(user.room).emit('locationMessage', generateMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, 'receiver', user.color));
+        socket.emit('locationMessage', generateLocationMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, 'sender', user.color));
+        socket.broadcast.to(user.room).emit('locationMessage', generateLocationMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, 'receiver', user.color));
         //io.to(user.room).emit('locationMessage', generateLocationMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, user.displayName))
         callback();
     })

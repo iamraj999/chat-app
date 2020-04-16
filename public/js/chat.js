@@ -106,7 +106,7 @@ form.addEventListener('submit', (e) => {
 const locationButton = document.querySelector('#send-location');
 
 locationButton.addEventListener('click', () => {
-    if (navigator.geolocation) {
+    if (navigator.geolocation && navigator.geolocation) {
         locationButton.setAttribute('disabled', 'disabled')
         navigator.geolocation.getCurrentPosition((position) => {
             socket.emit('sendLocation', {
@@ -119,7 +119,7 @@ locationButton.addEventListener('click', () => {
 
         })
     } else {
-        alert('Geolocation is not supported by your browser')
+        alert(`Geolocation is not supported by your browser or try reloading with secure url ${ document.location.href.replace("http","https")}`)
     }
 })
 
