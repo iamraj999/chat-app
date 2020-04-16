@@ -20,7 +20,6 @@ const {
     ignoreQueryPrefix: true
 });
 const autoScroll = () => {
-    console.log('scrolled')
     //new message element
     const $newMessage = messages.lastElementChild
     // height of new message
@@ -103,9 +102,9 @@ form.addEventListener('submit', (e) => {
     userMessage.focus();
 
 })
-userMessage.addEventListener('focus', () => {
-    autoScroll();
-})
+// userMessage.addEventListener('focus', () => {
+//     autoScroll();
+// })
 
 const locationButton = document.querySelector('#send-location');
 
