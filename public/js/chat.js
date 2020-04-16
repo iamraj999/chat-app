@@ -41,24 +41,34 @@ const autoScroll = () => {
 
 
 socket.on('message', (message) => {
-    console.log(message.text)
+    console.log(message)
     const html = Mustache.render(messageTemplate, {
         username: message.username,
         message: message.text,
         createdAt: moment(message.createdAt).format('h:mm a'),
-        displayName: message.displayName
+        displayName: message.displayName,
+        className: message.className,
+        color: message.color,
+        isReceiver: function () {
+            return message.className === 'receiver' || message.className === 'admin';
+          }
     });
     messages.insertAdjacentHTML('beforeend', html);
     autoScroll();
 });
 
 socket.on('locationMessage', (message) => {
-    console.log(message.url)
+    console.log(message)
     const html = Mustache.render(locationMessageTemplate, {
         username: message.username,
         url: message.url,
         createdAt: moment(message.createdAt).format('h:mm a'),
-        displayName: message.displayName
+        displayName: message.displayName,
+        className: message.className,
+        color: message.color,
+        isReceiver: function () {
+            return message.className === 'receiver';
+          }
     });
     messages.insertAdjacentHTML('beforeend', html);
     autoScroll();

@@ -7,6 +7,7 @@ const addUser = ({
     room
 }) => {
     const displayName = username.trim();
+    const color = '#'+Math.floor(Math.random()*16777215).toString(16);
     username = username.trim().toLowerCase();
     const roomDisplayName = room.trim();
     room = room.trim().toLowerCase();
@@ -30,7 +31,8 @@ const addUser = ({
         username,
         room,
         displayName,
-        roomDisplayName
+        roomDisplayName,
+        color
     }
     users.push(user);
     return {

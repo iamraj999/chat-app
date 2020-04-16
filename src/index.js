@@ -24,7 +24,6 @@ const io = socketio(server);
 const publicDirectoryPath = path.join(__dirname, '../public');
 app.use(express.static(publicDirectoryPath));
 
-let count = 0;
 io.on('connection', (socket) => {
     //join room
     socket.on('join', ({
@@ -44,8 +43,8 @@ io.on('connection', (socket) => {
             return callback(error)
         }
         socket.join(user.room)
-        socket.emit('message', generateMessage('Admin', 'Admin', 'Welcome'));
-        socket.broadcast.to(user.room).emit('message', generateMessage('Admin', 'Admin', `${user.displayName} has joined`));
+        socket.emit('message', generateMessage('Admin', 'Admin', 'Welcome', 'admin', ""));
+        socket.broadcast.to(user.room).emit('message', generateMessage('Admin', 'Admin', `${user.displayName} has joined`, 'admin', ""));
 
         io.to(user.room).emit('roomData', {
             room: user.room,
@@ -63,20 +62,24 @@ io.on('connection', (socket) => {
             if (filter.isProfane(msg)) {
                 return callback('Profanity not allowed');
             }
-            io.to(user.room).emit('message', generateMessage( user.displayName,user.username, msg));
+            socket.emit('message', generateMessage(user.displayName, user.username, msg, 'sender', user.color));
+            socket.broadcast.to(user.room).emit('message', generateMessage(user.displayName, user.username, msg, 'receiver', user.color));
+            //io.to(user.room).emit('message', generateMessage(user.displayName, user.username, msg));
             callback('delivered!');
         }
     })
     socket.on('sendLocation', (coords, callback) => {
         const user = getUser(socket.id)
-        io.to(user.room).emit('locationMessage', generateLocationMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, user.displayName))
+        socket.emit('locationMessage', generateMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, 'sender', user.color));
+        socket.broadcast.to(user.room).emit('locationMessage', generateMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, 'receiver', user.color));
+        //io.to(user.room).emit('locationMessage', generateLocationMessage(user.displayName, user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`, user.displayName))
         callback();
     })
 
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         if (user) {
-            io.to(user.room).emit('message', generateMessage('Admin', 'Admin', `${user.displayName} has left!`));
+            io.to(user.room).emit('message', generateMessage('Admin', 'Admin', `${user.displayName} has left!`, 'admin',""));
             io.to(user.room).emit('roomData', {
                 room: user.room,
                 users: getUsersInRoom(user.room),
