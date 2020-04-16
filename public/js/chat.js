@@ -34,7 +34,7 @@ const autoScroll = () => {
     //how far i scrolled
     const scrollOffset = messages.scrollTop + visibleheight;
 
-    if(containerheight - newMessageHeight <= scrollOffset){
+    if (containerheight - newMessageHeight <= scrollOffset) {
         messages.scrollTop = messages.scrollHeight
     }
 }
@@ -51,7 +51,7 @@ socket.on('message', (message) => {
         color: message.color,
         isReceiver: function () {
             return message.className === 'receiver' || message.className === 'admin';
-          }
+        }
     });
     messages.insertAdjacentHTML('beforeend', html);
     autoScroll();
@@ -68,7 +68,7 @@ socket.on('locationMessage', (message) => {
         color: message.color,
         isReceiver: function () {
             return message.className === 'receiver';
-          }
+        }
     });
     messages.insertAdjacentHTML('beforeend', html);
     autoScroll();
@@ -82,7 +82,7 @@ socket.on('roomData', ({
     const html = Mustache.render(sidebarTemplate, {
         room: room,
         users: users,
-        roomDisplayName:roomDisplayName
+        roomDisplayName: roomDisplayName
     });
     document.querySelector('#sidebar').innerHTML = html;
 })
@@ -106,20 +106,27 @@ form.addEventListener('submit', (e) => {
 const locationButton = document.querySelector('#send-location');
 
 locationButton.addEventListener('click', () => {
-    if (navigator.geolocation && navigator.geolocation) {
-        locationButton.setAttribute('disabled', 'disabled')
-        navigator.geolocation.getCurrentPosition((position) => {
-            socket.emit('sendLocation', {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            }, () => {
-                locationButton.removeAttribute('disabled')
-                console.log('location shared')
-            })
+    if (navigator.geolocation) {
+        locationButton.setAttribute('disabled', 'disabled');
+        try {
+            navigator.geolocation.getCurrentPosition((position) => {
+                socket.emit('sendLocation', {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                }, () => {
+                    locationButton.removeAttribute('disabled')
+                    console.log('location shared')
+                })
 
-        })
+            })
+        } catch (error) {
+            locationButton.removeAttribute('disabled');
+            if (window.confirm('Geolocation is not supported with http urls. Try reloading with secure url. If you click "ok" you would be redirected')) {
+                window.location.href = document.location.href.replace("http", "https");
+            };
+        }
     } else {
-        alert(`Geolocation is not supported by your browser or try reloading with secure url ${ document.location.href.replace("http","https")}`)
+        alert(`Geolocation is not supported by your browser`)
     }
 })
 
