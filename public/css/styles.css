@@ -220,7 +220,7 @@ button:disabled {
     }
 
     .chat__sidebar {
-        height: auto;
+        height: 700px;
         width: 30%;
         overflow: hidden;
     }
