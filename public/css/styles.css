@@ -216,7 +216,7 @@ button:disabled {
 
 @media only screen and (max-width: 768px) {
     .chat {
-        height: 700px;
+        height: 600px;
     }
 
     .chat__sidebar {
@@ -229,6 +229,7 @@ button:disabled {
         width: 70%;
         height: 700px;
     }
+
     .compose {
         display: block;
         flex-shrink: 0;
@@ -272,5 +273,9 @@ button:disabled {
         padding: 8px;
     }
 
+
+    .centered-form {
+        height: 600px;
+    }
 
 }
