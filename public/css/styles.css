@@ -216,11 +216,12 @@ button:disabled {
 
 @media only screen and (max-width: 768px) {
     .chat {
-        height: 600px;
+        height: 800px;
+        width: 370px;
     }
 
     .chat__sidebar {
-        height: 500px;
+        height: 800px;
         width: 30%;
         overflow: hidden;
     }
