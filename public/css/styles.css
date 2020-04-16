@@ -87,6 +87,7 @@ button:disabled {
 
 .chat {
     display: flex;
+    overflow: hidden;
 }
 
 .chat__sidebar {
