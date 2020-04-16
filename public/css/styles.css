@@ -215,22 +215,7 @@ button:disabled {
 }
 
 @media only screen and (max-width: 768px) {
-    .chat {
-        height: 800px;
-        width: 370px;
-    }
-
-    .chat__sidebar {
-        height: 800px;
-        width: 30%;
-        overflow: hidden;
-    }
-
-    .chat__main {
-        width: 70%;
-        height: 650px;
-    }
-
+    
     .compose {
         display: block;
         flex-shrink: 0;

@@ -38,7 +38,7 @@
         <div class="message {{className}}">
             <div>
                 {{#isReceiver}}
-            <span class="message__name" style="color:{{color}};">{{displayName}}</span>
+                <span class="message__name" style="color:{{color}};">{{displayName}}</span>
                 {{/isReceiver}}
                 <p><a target="_blank" href="{{url}}"> My Current Location</a></p>
                 <span class="message__meta">{{createdAt}}</span>
@@ -63,6 +63,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/chat.js"></script>
+    <script>
+        (function () {
+            var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            document.querySelector('html').style.width = w+'px';
+            document.querySelector('html').style.height = h+'px';
+        })();
+    </script>
 </body>
 
 </html>
