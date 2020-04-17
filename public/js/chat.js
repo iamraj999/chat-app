@@ -72,6 +72,7 @@ socket.on('image', (message) => {
         }
     });
     messages.insertAdjacentHTML('beforeend', html);
+    autoScroll();
 });
 
 socket.on('locationMessage', (message) => {
