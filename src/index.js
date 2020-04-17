@@ -79,8 +79,8 @@ io.on('connection', (socket) => {
 
     socket.on('base64 file', (image, callback) => {
         const user = getUser(socket.id);
-        socket.emit('image', generateImageMessage(user.username, user.displayName, image.file, 'sender', user.color));
-        socket.broadcast.to(user.room).emit('image', generateImageMessage(user.username, user.displayName, image.file, 'receiver', user.color));
+        socket.emit('image', generateImageMessage(user.displayName, user.username, image.file, 'sender', user.color));
+        socket.broadcast.to(user.room).emit('image', generateImageMessage(user.displayName, user.username, image.file, 'receiver', user.color));
         callback()
     })
 
