@@ -11,6 +11,7 @@ const messages = document.querySelector('#messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
+const imageMessageTemplate = document.querySelector('#image-template').innerHTML
 
 //QS
 const {
@@ -55,6 +56,20 @@ socket.on('message', (message) => {
     });
     messages.insertAdjacentHTML('beforeend', html);
     autoScroll();
+});
+socket.on('image', (message) => {
+    const html = Mustache.render(imageMessageTemplate, {
+        username: message.username,
+        file: message.file,
+        createdAt: moment(message.createdAt).format('h:mm a'),
+        displayName: message.displayName,
+        className: message.className,
+        color: message.color,
+        isReceiver: function () {
+            return message.className === 'receiver';
+        }
+    });
+    messages.insertAdjacentHTML('beforeend', html);
 });
 
 socket.on('locationMessage', (message) => {
@@ -138,8 +153,18 @@ socket.emit('join', {
     room
 }, (error) => {
     if (error) {
-        alert(error)
-        location.href = '/';
+        if (error.indexOf('User Name is required to join ') === 0) {
+            const name = prompt('Enter your username!');
+            const room = error.replace('User Name is required to join ', '');
+            if (name) {
+                location.href = `/chat.html?username=${name}&room=${room}`
+            } else {
+                location.href = '/';
+            }
+        } else {
+            alert(error)
+            location.href = '/';
+        }
     }
 });
 
@@ -150,3 +175,21 @@ socket.on('roomData', ({
     console.log(users)
 
 })
+
+document.querySelector("#image").addEventListener('change', function (e) {
+    var data = e.target.files[0];
+    readThenSendFile(data);
+});
+
+function readThenSendFile(data) {
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+        var msg = {};
+        msg.file = evt.target.result;
+        msg.fileName = data.name;
+        socket.emit('base64 file', msg, () => {
+            document.querySelector('#image').value = '';
+        });
+    };
+    reader.readAsDataURL(data);
+}

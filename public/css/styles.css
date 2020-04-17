@@ -169,6 +169,32 @@ button:disabled {
     transform: rotate(45deg);
     background-color: darkgray;
   }
+  .message_image img{
+      width: 200px;
+      height: 200px;
+  }
+  .upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 52px;
+  }
+  
+  .btn {
+    font-weight: bold;
+    cursor: pointer;
+    background: #7C5CBF;
+    border: none;
+    color: white;
+    transition: background .3s ease;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
 
 .message.admin {
     float: none;
@@ -304,6 +330,9 @@ button:disabled {
     .centered-form {
         height: 600px;
     }
+    .upload-btn-wrapper {
+        width: 76px;
+      }
 
 }
 /*** iPhone and iOS Form Input Zoom Fixes ***/

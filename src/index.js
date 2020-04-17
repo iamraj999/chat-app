@@ -5,7 +5,8 @@ const socketio = require('socket.io');
 const Filter = require('bad-words');
 const {
     generateMessage,
-    generateLocationMessage
+    generateLocationMessage,
+    generateImageMessage
 } = require('./utils/messages');
 const {
     addUser,
@@ -76,10 +77,18 @@ io.on('connection', (socket) => {
         callback();
     })
 
+    socket.on('base64 file', (image, callback) => {
+        const user = getUser(socket.id);
+        socket.emit('image', generateImageMessage(user.username, user.displayName, image.file, 'sender', user.color));
+        socket.broadcast.to(user.room).emit('image', generateImageMessage(user.username, user.displayName, image.file, 'receiver', user.color));
+        callback()
+    })
+
+
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         if (user) {
-            io.to(user.room).emit('message', generateMessage('Admin', 'Admin', `${user.displayName} has left!`, 'admin',""));
+            io.to(user.room).emit('message', generateMessage('Admin', 'Admin', `${user.displayName} has left!`, 'admin', ""));
             io.to(user.room).emit('roomData', {
                 room: user.room,
                 users: getUsersInRoom(user.room),

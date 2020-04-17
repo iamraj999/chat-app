@@ -20,7 +20,19 @@ const generateLocationMessage = (displayName, username, url, className, color) =
     }
 }
 
+const generateImageMessage = (displayName, username, file, className, color) => {
+    return {
+        username: username,
+        file: file.toString('base64'),
+        createdAt: new Date().getTime(),
+        displayName: displayName,
+        className: className,
+        color
+    }
+}
+
 module.exports = {
     generateMessage,
-    generateLocationMessage
+    generateLocationMessage,
+    generateImageMessage
 }

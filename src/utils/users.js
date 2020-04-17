@@ -11,6 +11,11 @@ const addUser = ({
     username = username.trim().toLowerCase();
     const roomDisplayName = room.trim();
     room = room.trim().toLowerCase();
+    if (!username && room) {
+        return {
+            error: `User Name is required to join ${room}`
+        }
+    }
     if (!username || !room) {
         return {
             error: 'User Name and Room are required'
