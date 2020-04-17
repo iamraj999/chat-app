@@ -179,7 +179,15 @@ socket.on('roomData', ({
 document.querySelector("#image").addEventListener('change', function (e) {
     document.querySelector("#imageButton").setAttribute('disabled', 'disabled');
     var data = e.target.files[0];
-    readThenSendFile(data);
+    let size = data.size;
+    if (size > 3000000) {
+        alert('File size exceeds 3MB, Choose different image');
+        document.querySelector('#image').value = '';
+        document.querySelector("#imageButton").removeAttribute('disabled');
+    } else {
+        readThenSendFile(data);
+    }
+
 });
 
 function readThenSendFile(data) {
@@ -194,5 +202,5 @@ function readThenSendFile(data) {
         });
     };
     reader.readAsDataURL(data);
-    
+
 }
