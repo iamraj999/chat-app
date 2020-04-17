@@ -194,4 +194,5 @@ function readThenSendFile(data) {
         });
     };
     reader.readAsDataURL(data);
+    
 }
