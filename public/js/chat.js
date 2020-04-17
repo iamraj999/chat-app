@@ -4,8 +4,10 @@ const socket = io();
 
 const form = document.querySelector('#message-form');
 const userMessage = document.querySelector('#usermsg');
-const button = form.querySelector('button');
+const sendButton = document.querySelector('#send-message');
 const messages = document.querySelector('#messages');
+const imageButton = document.querySelector("#imageButton")
+const imageField = document.querySelector('#image');
 
 //templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
@@ -105,9 +107,9 @@ socket.on('roomData', ({
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    button.setAttribute('disabled', 'disabled')
+    sendButton.setAttribute('disabled', 'disabled')
     socket.emit('sendMessage', userMessage.value, (error) => {
-        button.removeAttribute('disabled');
+        sendButton.removeAttribute('disabled');
         if (error) {
             return console.log(error)
         }
@@ -176,14 +178,14 @@ socket.on('roomData', ({
 
 })
 
-document.querySelector("#image").addEventListener('change', function (e) {
-    document.querySelector("#imageButton").setAttribute('disabled', 'disabled');
+imageField.addEventListener('change', function (e) {
+    imageButton.setAttribute('disabled', 'disabled');
     var data = e.target.files[0];
     let size = data.size;
     if (size > 3000000) {
         alert('File size exceeds 3MB, Choose different image');
-        document.querySelector('#image').value = '';
-        document.querySelector("#imageButton").removeAttribute('disabled');
+        imageField.value = '';
+        imageButton.removeAttribute('disabled');
     } else {
         readThenSendFile(data);
     }
@@ -197,8 +199,8 @@ function readThenSendFile(data) {
         msg.file = evt.target.result;
         msg.fileName = data.name;
         socket.emit('base64 file', msg, () => {
-            document.querySelector('#image').value = '';
-            document.querySelector("#imageButton").removeAttribute('disabled');
+            imageField.value = '';
+            imageButton.removeAttribute('disabled');
         });
     };
     reader.readAsDataURL(data);
