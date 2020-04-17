@@ -20,14 +20,15 @@ const generateLocationMessage = (displayName, username, url, className, color) =
     }
 }
 
-const generateImageMessage = (displayName, username, file, className, color) => {
+const generateImageMessage = (displayName, username, file, className, color, fileName) => {
     return {
         username: username,
         file: file.toString('base64'),
         createdAt: new Date().getTime(),
         displayName: displayName,
         className: className,
-        color
+        color,
+        fileName
     }
 }
 

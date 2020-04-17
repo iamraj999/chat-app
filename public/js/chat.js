@@ -69,6 +69,9 @@ socket.on('image', (message) => {
         color: message.color,
         isReceiver: function () {
             return message.className === 'receiver';
+        },
+        fileClass: function(){
+            return message.fileName.match(/\.(png)$/) ? 'pngimage' : "";
         }
     });
     messages.insertAdjacentHTML('beforeend', html);
