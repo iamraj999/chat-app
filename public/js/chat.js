@@ -177,6 +177,7 @@ socket.on('roomData', ({
 })
 
 document.querySelector("#image").addEventListener('change', function (e) {
+    document.querySelector("#imageButton").setAttribute('disabled', 'disabled');
     var data = e.target.files[0];
     readThenSendFile(data);
 });
@@ -189,6 +190,7 @@ function readThenSendFile(data) {
         msg.fileName = data.name;
         socket.emit('base64 file', msg, () => {
             document.querySelector('#image').value = '';
+            document.querySelector("#imageButton").removeAttribute('disabled');
         });
     };
     reader.readAsDataURL(data);
