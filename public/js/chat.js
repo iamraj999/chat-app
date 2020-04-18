@@ -109,9 +109,6 @@ socket.on('roomData', ({
 })
 
 
-userMessage.addEventListener('focus', () => {
-    autoScroll();
-})
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     sendButton.setAttribute('disabled', 'disabled')
