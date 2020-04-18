@@ -70,8 +70,8 @@ socket.on('image', (message) => {
         isReceiver: function () {
             return message.className === 'receiver';
         },
-        fileClass: function(){
-            return message.fileName.match(/\.(png)$/) ? 'pngimage' : "";
+        fileClass: function () {
+            return message.fileName.match(/\.(png|PNG)$/) ? 'pngimage' : "";
         }
     });
     messages.insertAdjacentHTML('beforeend', html);
@@ -109,6 +109,9 @@ socket.on('roomData', ({
 })
 
 
+userMessage.addEventListener('focus', () => {
+    autoScroll();
+})
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     sendButton.setAttribute('disabled', 'disabled')
