@@ -1,13 +1,18 @@
-const users = [];
+let users = [];
 //addUser, removeUser, getUser, getUsersInRoom
-
+const updateUser = (id, room, field, value) => {
+    users.map(user => {
+        user.id === id && user.room === room ? user[field] = value : user
+    })
+    return users;
+}
 const addUser = ({
     id,
     username,
     room
 }) => {
     const displayName = username.trim();
-    const color = '#'+Math.floor(Math.random()*16777215).toString(16);
+    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
     username = username.trim().toLowerCase();
     const roomDisplayName = room.trim();
     room = room.trim().toLowerCase();
@@ -37,7 +42,8 @@ const addUser = ({
         room,
         displayName,
         roomDisplayName,
-        color
+        color,
+        isTyping: false
     }
     users.push(user);
     return {
@@ -67,5 +73,6 @@ module.exports = {
     addUser,
     removeUser,
     getUser,
-    getUsersInRoom
+    getUsersInRoom,
+    updateUser
 }

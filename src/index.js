@@ -12,7 +12,8 @@ const {
     addUser,
     removeUser,
     getUser,
-    getUsersInRoom
+    getUsersInRoom,
+    updateUser
 } = require('./utils/users');
 
 
@@ -83,11 +84,33 @@ io.on('connection', (socket) => {
         socket.broadcast.to(user.room).emit('image', generateImageMessage(user.displayName, user.username, image.file, 'receiver', user.color, image.fileName));
         callback()
     })
+    socket.on('is typing', (typing) => {
+        const user = getUser(socket.id);
+        if (user) {
+            const updatedUsers = updateUser(socket.id, user.room, 'isTyping', typing)
+            const users = getUsersInRoom(user.room);
+            const typingUsers = users.filter(user => (user.isTyping));
+            io.to(user.room).emit('typing', typingUsers);
+        }
+    })
+    socket.on('removeTypers', (typing) => {
+        const user = getUser(socket.id);
+        if (user) {
+            const updatedUsers = updateUser(socket.id, user.room, 'isTyping', typing)
+            const users = getUsersInRoom(user.room);
+            const typingUsers = users.filter(user => (user.isTyping));
+            io.to(user.room).emit('typing', typingUsers);
+        }
+    })
 
 
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         if (user) {
+            const updatedUsers = updateUser(socket.id, user.room, 'isTyping', false)
+            const users = getUsersInRoom(user.room);
+            const typingUsers = users.filter(user => (user.isTyping));
+            io.to(user.room).emit('typing', typingUsers);
             io.to(user.room).emit('message', generateMessage('Admin', 'Admin', `${user.displayName} has left!`, 'admin', ""));
             io.to(user.room).emit('roomData', {
                 room: user.room,

@@ -8,13 +8,14 @@ const sendButton = document.querySelector('#send-message');
 const messages = document.querySelector('#messages');
 const imageButton = document.querySelector("#imageButton")
 const imageField = document.querySelector('#image');
+const isUserstyping = document.querySelector('#isUserstyping_container');
 
 //templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 const imageMessageTemplate = document.querySelector('#image-template').innerHTML
-
+const messageTypingTemplate = document.querySelector('#message-typing-template').innerHTML
 //QS
 const {
     username,
@@ -42,6 +43,28 @@ const autoScroll = () => {
     }
 }
 
+socket.on('typing', (typingUsers) => {
+    const html = Mustache.render(messageTypingTemplate, {
+        isTyping: function () {
+            const typers = typingUsers.filter(user => {
+                return user.isTyping && user.id !== socket.id;
+            })
+            return typers.length > 0;
+        },
+        message: function () {
+            const typers = typingUsers.filter(user => {
+                return user.isTyping && user.id !== socket.id;
+            })
+            let socketMsg = '';
+            if (typers.length > 0) {
+                socketMsg = typers.length === 1 ? `${typers[0].displayName} is typing` : `${typers[0].displayName} and ${typers.length -1} others are typing`
+            }
+            return socketMsg;
+        }
+    });
+    isUserstyping.innerHTML = '';
+    isUserstyping.insertAdjacentHTML('beforeend', html);
+});
 
 socket.on('message', (message) => {
     console.log(message)
@@ -108,11 +131,20 @@ socket.on('roomData', ({
     document.querySelector('#sidebar').innerHTML = html;
 })
 
+userMessage.addEventListener('keyup', (e) => {
+    if (e.target.value) {
+        socket.emit('is typing', true);
+    } else {
+        socket.emit('removeTypers', false);
+    }
+});
+
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     sendButton.setAttribute('disabled', 'disabled')
     socket.emit('sendMessage', userMessage.value, (error) => {
+        socket.emit('is typing', false);
         sendButton.removeAttribute('disabled');
         if (error) {
             return console.log(error)

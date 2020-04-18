@@ -4,7 +4,7 @@
 <head>
     <title>Chat App</title>
     <link rel="icon" href="./img/favicon.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
     <link rel="stylesheet" href="./css/styles.css" />
 </head>
 
@@ -13,12 +13,13 @@
         <div id="sidebar" class="chat__sidebar"></div>
         <div class="chat__main">
             <div id="messages" class="chat__messages"></div>
-            <div class="compose">    
+            <div id="isUserstyping_container"></div>
+            <div class="compose">
                 <form id="message-form" autocomplete="off">
                     <div class="upload-btn-wrapper">
                         <button id="imageButton" type="button" class="btn">+</button>
                         <input id="image" type="file" name="myfile" />
-                      </div>
+                    </div>
                     <input autocomplete="off" name="message" id="usermsg" placeholder="Message" required />
                     <button id="send-message" type="submit">send</button>
                 </form>
@@ -38,6 +39,16 @@
             </div>
         </div>
     </script>
+    <script id="message-typing-template" type="text/html">
+        {{#isTyping}}
+        <div id="isUserstyping">{{message}}</div>
+        <div id="wave">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        {{/isTyping}}
+    </script>
     <script id="location-message-template" type="text/html">
         <div class="message {{className}}">
             <div>
@@ -56,7 +67,7 @@
                 {{#isReceiver}}
                 <span class="message__name" style="color:{{color}};">{{displayName}}</span>
                 {{/isReceiver}}
-                <div><img src="{{file}}"  /></div>
+                <div><img src="{{file}}" /></div>
                 <span class="message__meta">{{createdAt}}</span>
             </div>
         </div>
@@ -83,8 +94,8 @@
         (function () {
             var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-            document.querySelector('html').style.width = w+'px';
-            document.querySelector('html').style.height = h+'px';
+            document.querySelector('html').style.width = w + 'px';
+            document.querySelector('html').style.height = h + 'px';
         })();
     </script>
 </body>
