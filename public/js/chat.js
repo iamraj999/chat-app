@@ -83,7 +83,7 @@ socket.on('message', (message) => {
     autoScroll();
 });
 socket.on('image', (message) => {
-    const isVideo = message.fileName.match(/\.(jpg|gif|png|bmp|pdf|doc|docx|ppt|pptx|xls)$/i) ? false : true;
+    const isVideo = message.fileName.match(/\.(jpg|jpeg|gif|png|bmp|pdf|doc|docx|ppt|pptx|xls)$/i) ? false : true;
     const html = Mustache.render(imageMessageTemplate, {
         username: message.username,
         file: message.file,
