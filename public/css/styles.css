@@ -239,6 +239,7 @@ button:disabled {
 }
 
 .message__name {
+    display: inline-block;
     font-weight: 600;
     font-size: 14px;
     margin-right: 8px;
@@ -256,9 +257,11 @@ button:disabled {
     color: #0070CC;
 }
 #myVideo{
+    display: block;
     cursor: pointer !important;
     width: 200px;
-    height: 200px;
+    height: 154px;
+    border-radius: 8px;
 }
 
 /* Message Composition Styles */
