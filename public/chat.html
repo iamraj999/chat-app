@@ -67,7 +67,16 @@
                 {{#isReceiver}}
                 <span class="message__name" style="color:{{color}};">{{displayName}}</span>
                 {{/isReceiver}}
+                {{#!isVideo}}
                 <div><img src="{{file}}" /></div>
+                {{/!isVideo}}
+                {{#isVideo}}
+                <video id="myVideo" width="220" height="176">
+                    <source src="{{file}}" type="video/mp4">
+                    <source src="{{file}}" type="video/ogg">
+                    Your browser does not support HTML5 video.
+                </video>
+                {{/isVideo}}
                 <span class="message__meta">{{createdAt}}</span>
             </div>
         </div>

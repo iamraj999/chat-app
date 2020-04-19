@@ -83,6 +83,7 @@ socket.on('message', (message) => {
     autoScroll();
 });
 socket.on('image', (message) => {
+    const isVideo = message.fileName.match(/\.(jpg|gif|png|bmp|pdf|doc|docx|ppt|pptx|xls)$/i) ? false : true;
     const html = Mustache.render(imageMessageTemplate, {
         username: message.username,
         file: message.file,
@@ -95,10 +96,21 @@ socket.on('image', (message) => {
         },
         fileClass: function () {
             return message.fileName.match(/\.(png|PNG)$/) ? 'pngimage' : "";
-        }
+        },
+        isVideo: isVideo
     });
     messages.insertAdjacentHTML('beforeend', html);
     autoScroll();
+    if (isVideo) {
+        const video = document.querySelector('#myVideo');
+        video.addEventListener('click', () => {
+            if (video.paused == true) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        })
+    }
 });
 
 socket.on('locationMessage', (message) => {

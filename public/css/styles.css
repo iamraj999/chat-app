@@ -255,6 +255,9 @@ button:disabled {
 .message a {
     color: #0070CC;
 }
+#myVideo{
+    cursor: pointer !important;
+}
 
 /* Message Composition Styles */
 
