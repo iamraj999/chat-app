@@ -102,14 +102,29 @@ socket.on('image', (message) => {
     messages.insertAdjacentHTML('beforeend', html);
     autoScroll();
     if (isVideo) {
-        const video = document.querySelector('#myVideo');
-        video.addEventListener('click', () => {
-            if (video.paused == true) {
-                video.play();
-            } else {
-                video.pause();
+        var elements = document.getElementsByClassName("video");
+
+        function toggleVideoPlay(el) {
+            el.stopPropagation();
+            el.preventDefault();
+            var isPlaying = this.currentTime > 0 && !this.paused && !this.ended &&
+                this.readyState > 2;
+
+            if (!isPlaying) {
+                this.play();
             }
-        })
+            if (isPlaying) {
+                this.pause();
+            }
+        }
+
+        Array.from(elements).forEach((element) => {
+            let clickevent = element.getAttribute('data-clckeventadded');
+            if (!clickevent) {
+                element.setAttribute('data-clckeventadded', true);
+                element.addEventListener('click', toggleVideoPlay);
+            }
+        });
     }
 });
 
