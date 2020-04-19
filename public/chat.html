@@ -67,9 +67,9 @@
                 {{#isReceiver}}
                 <span class="message__name" style="color:{{color}};">{{displayName}}</span>
                 {{/isReceiver}}
-                {{#!isVideo}}
+                {{^isVideo}}
                 <div><img src="{{file}}" /></div>
-                {{/!isVideo}}
+                {{/isVideo}}
                 {{#isVideo}}
                 <video id="myVideo" class="video"">
                     <source src="{{file}}" type="video/mp4">
