@@ -131,6 +131,14 @@ socket.on('roomData', ({
     document.querySelector('#sidebar').innerHTML = html;
 })
 
+userMessage.addEventListener('focusout', () => {
+    socket.emit('removeTypers', false);
+})
+document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+        socket.emit('removeTypers', false);
+    }
+});
 userMessage.addEventListener('keyup', (e) => {
     if (e.target.value) {
         socket.emit('is typing', true);
