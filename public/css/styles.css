@@ -257,6 +257,8 @@ button:disabled {
 }
 #myVideo{
     cursor: pointer !important;
+    width: 200px;
+    height: 200px;
 }
 
 /* Message Composition Styles */
